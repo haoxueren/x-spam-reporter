@@ -1,1 +1,29 @@
+# macOS 系统文件
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# 日志
+*.log
+logs/
+
+# 扩展打包产物
+*.zip
+*.crx
+*.pem
+dist/
+build/
+
+# 依赖 / 缓存
+node_modules/
+.cache/

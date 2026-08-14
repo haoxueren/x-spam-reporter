@@ -1,0 +1,32 @@
+# ripgrep / 编辑器全文搜索忽略文件（rg、fd、VS Code 等通用）
+# 规则优先级高于 .gitignore，且不依赖 git 仓库状态
+
+# ── macOS 系统文件 ─────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+
+# ── 编辑器 / IDE ───────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# ── 日志 ───────────────────────────────────────
+*.log
+logs/
+
+# ── 扩展打包产物 ───────────────────────────────
+*.zip
+*.crx
+*.pem
+dist/
+build/
+
+# ── 依赖 / 缓存（本项目暂无，预留）──────────────
+node_modules/
+.cache/
