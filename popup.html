@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>X 一键举报助手</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 340px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 13px;
+      color: #0f1419;
+      background: #fff;
+      padding: 12px;
+    }
+    h1 { font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    h1 .dot { width: 8px; height: 8px; border-radius: 50%; background: #cfd9de; display: inline-block; }
+    h1 .dot.on { background: #1d9bf0; box-shadow: 0 0 6px #1d9bf0; }
+    label { display: block; font-weight: 600; margin: 8px 0 4px; }
+    textarea, input {
+      width: 100%;
+      border: 1px solid #cfd9de;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-family: inherit;
+      resize: vertical;
+    }
+    textarea { min-height: 52px; }
+    .row { display: flex; gap: 8px; }
+    .row > div { flex: 1; }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 0;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity .15s;
+    }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn.primary { background: #1d9bf0; color: #fff; }
+    .btn.danger { background: #f4212e; color: #fff; }
+    .btn.ghost { background: #eff3f4; color: #0f1419; }
+    .stats { display: flex; gap: 10px; margin-top: 10px; font-size: 12px; color: #536471; }
+    .stats b { color: #0f1419; }
+    .hint { margin-top: 6px; font-size: 11px; color: #8b98a5; }
+    .warn { margin-top: 8px; background: #fef3cd; border-radius: 6px; padding: 6px 8px; font-size: 11px; color: #7a5b00; display: none; }
+    .log {
+      margin-top: 10px;
+      background: #f7f9f9;
+      border-radius: 6px;
+      padding: 6px 8px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 11px;
+      color: #536471;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .log:empty { display: none; }
+    .reported {
+      margin-top: 8px;
+      max-height: 90px;
+      overflow-y: auto;
+      font-size: 11px;
+      color: #536471;
+      line-height: 1.6;
+    }
+    .reported b { color: #0f1419; }
+    details { margin-top: 8px; }
+    summary { cursor: pointer; font-weight: 600; font-size: 12px; color: #536471; }
+    .small { font-size: 11px; color: #8b98a5; }
+  </style>
+</head>
+<body>
+  <h1><span class="dot" id="statusDot"></span>X 一键举报助手</h1>
+  <div class="warn" id="warn">当前标签页不是 X (x.com)，请先打开目标帖子的评论区页面。</div>
+
+  <label for="keywords">举报关键词（每行一个）</label>
+  <textarea id="keywords" placeholder="福不黑"></textarea>
+
+  <div class="row">
+    <div>
+      <label for="interval">间隔（秒/条）</label>
+      <input type="number" id="interval" min="2" max="30" value="4" />
+    </div>
+    <div>
+      <label for="maxReports">上限条数（0=不限）</label>
+      <input type="number" id="maxReports" min="0" value="0" />
+    </div>
+  </div>
+
+  <button class="btn primary" id="startBtn">▶ 开始自动举报</button>
+  <button class="btn danger" id="stopBtn" disabled>⏹ 停止</button>
+
+  <div class="stats">
+    <span>本次成功 <b id="statCount">0</b></span>
+    <span>跳过 <b id="statSkipped">0</b></span>
+    <span>失败 <b id="statFailed">0</b></span>
+    <span>状态 <b id="statRunning">空闲</b></span>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <details>
+    <summary>已举报账号（<span id="reportedCount">0</span>）</summary>
+    <div class="reported" id="reported"></div>
+    <button class="btn ghost" id="clearBtn">清空已举报记录</button>
+  </details>
+
+  <div class="hint">自动滚动加载评论并举报含关键词的评论（类别：垃圾信息）。建议间隔 ≥ 4 秒，避免触发 X 频率限制。</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

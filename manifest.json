@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "X 一键举报助手",
+  "version": "0.1.0",
+  "description": "在 X/Twitter 评论区自动查找并举报包含指定关键词的垃圾信息评论（举报类别：垃圾信息）",
+  "permissions": ["storage"],
+  "host_permissions": ["https://x.com/*", "https://twitter.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "X 一键举报助手",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
